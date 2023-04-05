@@ -14,4 +14,4 @@ create an account for yourself
 start the server
 > $ python manage.py runserver
 
-go to http://127.0.0.1:8000/admin and login with the your own account
+go to http://127.0.0.1:8000/admin and login with your account
