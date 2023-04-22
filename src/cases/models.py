@@ -1,6 +1,8 @@
 from django.db import models
 
-# Create your models here.
+from src.cases.define import RESULT_CHOICES
+
+
 class CaseModel(models.Model):
     class Meta:
         db_table = "case_model"
@@ -9,6 +11,7 @@ class CaseModel(models.Model):
 
     image = models.ImageField()
 
+
 class CaseResultModel(models.Model):
     class Meta:
         db_table = "case_result_model"
@@ -16,10 +19,7 @@ class CaseResultModel(models.Model):
     id = models.AutoField(primary_key=True)
     category = models.CharField(
         max_length=32,
-        choices=[
-            ("bugs", "bugs"),
-            ("scorch", "scorch"),
-        ],
+        choices=RESULT_CHOICES,
         default="bugs",
     )
     case = models.OneToOneField(

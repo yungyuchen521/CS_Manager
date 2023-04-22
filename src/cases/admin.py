@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.urls import reverse
 from django.utils.safestring import mark_safe 
-from cases.models import CaseModel, CaseResultModel
+from src.cases.models import CaseModel, CaseResultModel
 
 # Register your models here.
 @admin.register(CaseModel)
