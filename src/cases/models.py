@@ -1,31 +1,54 @@
 from django.db import models
 
-from src.cases.define import RESULT_CHOICES
+from src.cases.define import (
+    CASE_STATUS_CHOICES,
+    CASE_STATUS_PENDING,
+    TASK_RESULT_CHOICES,
+)
 
 
 class CaseModel(models.Model):
     class Meta:
-        db_table = "case_model"
+        db_table = "case"
 
     id = models.AutoField(primary_key=True)
+    case_id = models.CharField(max_length=16)
 
-    image = models.ImageField()
+    status = models.CharField(
+        max_length=16,
+        choices=CASE_STATUS_CHOICES,
+        default=CASE_STATUS_PENDING,
+    )
+    product_name = models.CharField(max_length=16)
+    batch_no = models.CharField(max_length=16)
+
+    created_at = models.DateTimeField()
+    updated_at = models.DateTimeField(auto_now=True)
 
 
-class CaseResultModel(models.Model):
+class TaskModel(models.Model):
     class Meta:
-        db_table = "case_result_model"
+        db_table = "task"
 
     id = models.AutoField(primary_key=True)
+
+    img = models.ImageField()
     category = models.CharField(
         max_length=32,
-        choices=RESULT_CHOICES,
-        default="bugs",
+        choices=TASK_RESULT_CHOICES,
+        blank=True,
+        null=True,
     )
-    case = models.OneToOneField(
+    result = models.TextField(
+        blank=True,
+        null=True,
+    )
+
+    case = models.ForeignKey(
         to=CaseModel,
         on_delete=models.CASCADE,
-        related_name="case_result",
+        related_name="task_set",
     )
-    result = models.TextField()
-    
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
