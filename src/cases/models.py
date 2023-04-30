@@ -4,6 +4,7 @@ from src.cases.define import (
     CASE_STATUS_CHOICES,
     CASE_STATUS_PENDING,
     TASK_RESULT_CHOICES,
+    PRODUCT_ISSUE_CHOICES,
 )
 
 
@@ -12,17 +13,32 @@ class CaseModel(models.Model):
         db_table = "case"
 
     id = models.AutoField(primary_key=True)
-    case_id = models.CharField(max_length=16)
+    case_id = models.CharField(max_length=16, unique=True) # 個案號碼
 
     status = models.CharField(
         max_length=16,
         choices=CASE_STATUS_CHOICES,
         default=CASE_STATUS_PENDING,
-    )
-    product_name = models.CharField(max_length=16)
-    batch_no = models.CharField(max_length=16)
+    ) # 狀態
 
-    created_at = models.DateTimeField()
+    product_name = models.CharField(max_length=16) # 產品名稱
+    batch_no = models.CharField(max_length=16) # 產品批號
+    product_specs = models.CharField(max_length=16, null=True, blank=True) # 產品規格
+
+    location = models.CharField(max_length=32, null=True, blank=True) # 地名 (產品規格右邊)
+
+    product_issue = models.CharField(
+        max_length=16,
+        choices=PRODUCT_ISSUE_CHOICES,
+        null=True,
+        blank=True,
+    ) # 產品問題
+    issue_details = models.TextField(null=True, blank=True) # 客訴詳細資訊
+
+    oem_feedback = models.TextField(null=True, blank=True) # 原廠 feedback 
+    oem_status = models.TextField(null=True, blank=True) # 原廠 feedback Status
+
+    created_at = models.DateTimeField() # 立案日期 (auto_now_add should be True in Prod)
     updated_at = models.DateTimeField(auto_now=True)
 
 
