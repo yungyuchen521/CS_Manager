@@ -32,7 +32,7 @@ class TaskModel(models.Model):
 
     id = models.AutoField(primary_key=True)
 
-    img = models.ImageField()
+    img = models.ImageField(upload_to="tasks/")
     category = models.CharField(
         max_length=32,
         choices=TASK_RESULT_CHOICES,
