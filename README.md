@@ -2,6 +2,7 @@
 
 ### Requirements
 > $ pip install django
+> $ pip install djangorestframework
 
 ### Setup the Database
 create database
