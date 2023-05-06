@@ -12,10 +12,10 @@ class CaseManager:
         return CaseModel.objects.get(case_id=case_id)
 
     @staticmethod
-    def get_case_and_task_set_by_id(case_id: str):
+    def get_with_task_set_by_case_id(case_id: str):
         return (
             CaseModel.objects
-            .select_related("task_set")
+            .prefetch_related("task_set").all()
             .get(case_id=case_id)
         )
 

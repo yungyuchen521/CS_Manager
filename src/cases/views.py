@@ -31,14 +31,26 @@ class CaseView(APIView):
 
     @classmethod
     def get(cls, request):
+        """
+            Todos:
+                1. send the encoded image instead of file path
+        """
+
         case_id = request.query_params.get("case_id")
 
-        try:    
-            model = CaseManager.get_by_case_id(case_id)
+        try:
+            case_model = CaseManager.get_with_task_set_by_case_id(case_id)
         except CaseModel.DoesNotExist:
             return ResponseHelper.item_not_found_resp(item=cls.ITEM_NAME)
 
-        return Response(CaseSerializer(model).data, status=status.HTTP_200_OK)
+        data = {
+            "case": CaseSerializer(case_model).data,
+            "task_set": [
+                TaskSerializer(task_model).data
+                for task_model in case_model.task_set.all()
+            ]
+        }
+        return Response(data=data, status=status.HTTP_200_OK)
 
     @classmethod
     def patch(cls, request):
