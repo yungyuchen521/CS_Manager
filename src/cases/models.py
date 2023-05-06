@@ -1,3 +1,6 @@
+import os
+
+from django.conf import settings
 from django.db import models
 
 from src.cases.define import (
@@ -68,3 +71,14 @@ class TaskModel(models.Model):
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    def delete(self, *args, **kwargs):
+        self.delete_img()
+        super().delete(*args, **kwargs)
+
+    def delete_img(self):
+        if settings.DEBUG:
+            file_path = settings.MEDIA_ROOT.parent / self.img.path
+            os.remove(file_path)
+        else:
+            raise NotImplementedError

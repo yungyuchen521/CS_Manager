@@ -2,9 +2,9 @@ from rest_framework.views import APIView
 from rest_framework import status
 from rest_framework.response import Response
 
-from src.cases.managers import CaseManager
-from src.cases.models import CaseModel
-from src.cases.serializers import CaseSerializer
+from src.cases.managers import CaseManager, TaskManager
+from src.cases.models import CaseModel, TaskModel
+from src.cases.serializers import CaseSerializer, TaskSerializer
 from src.utils import ResponseHelper
 
 INVALID_FILTER = "invalid filter arguments: {details}"
@@ -121,3 +121,48 @@ class CaseListView(APIView):
                 status_code=status.HTTP_400_BAD_REQUEST,
                 details=str(e),
             )
+
+
+class TaskView(APIView):
+    ITEM_NAME = "Task"
+
+    @classmethod
+    def post(cls, request):
+        serializer = TaskSerializer(data=request.data)
+
+        if serializer.is_valid():
+            task = serializer.save()
+            return Response(TaskSerializer(task).data, status=status.HTTP_201_CREATED)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    @classmethod
+    def patch(cls, request):
+        """
+            Todos:
+                1. prevent changing case_id here
+        """
+        try:
+            model = TaskManager.get_by_id(request.query_params.get("id"))
+        except TaskModel.DoesNotExist:
+            return ResponseHelper.item_not_found_resp(item=cls.ITEM_NAME)
+
+        serializer = TaskSerializer(model, data=request.data, partial=True)
+        if serializer.is_valid():
+            model.delete_img() # delete the original image
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    @classmethod
+    def delete(cls, request):
+        task_id = request.query_params.get("id")
+        try:
+            task = TaskManager.get_by_id(task_id)
+        except TaskModel.DoesNotExist:
+            return ResponseHelper.item_not_found_resp(item=cls.ITEM_NAME)
+        
+        data = TaskSerializer(task).data
+        task.delete()
+        return Response(data, status=status.HTTP_204_NO_CONTENT)

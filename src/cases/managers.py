@@ -2,7 +2,7 @@ from typing import Iterable, Optional
 
 from django.db.models import QuerySet
 
-from src.cases.models import CaseModel
+from src.cases.models import CaseModel, TaskModel
 from src.utils import DatetimeHelper
 
 
@@ -70,3 +70,13 @@ class CaseManager:
             qs = qs.filter(created_at__lte=end)
 
         return qs
+
+
+class TaskManager:
+    @staticmethod
+    def get_by_id(id: str):
+        return TaskModel.objects.get(id=id)
+    
+    @staticmethod
+    def get_by_case_id(case_id: str):
+        return TaskModel.objects.filter(case__case_id=case_id)
