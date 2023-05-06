@@ -23,8 +23,8 @@ from src.cases.views import CaseView, CaseListView
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("case/detail", CaseView.as_view()),
-    path("cases/filter", CaseListView.as_view())
+    path("case", CaseView.as_view()),
+    path("case-list", CaseListView.as_view()),
 ]
 
 if settings.DEBUG:

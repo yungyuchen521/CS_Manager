@@ -1,9 +1,9 @@
 from typing import Iterable, Optional
-from datetime import date
 
 from django.db.models import QuerySet
 
 from src.cases.models import CaseModel
+from src.utils import DatetimeHelper
 
 
 class CaseManager:
@@ -56,15 +56,17 @@ class CaseManager:
 
     @staticmethod
     def filter_by_date_range(
-        start: Optional[date]=None,
-        end: Optional[date]=None,
+        start=None,
+        end=None,
         qs: Optional[QuerySet]=None
     ):
         if qs is None:
             qs = CaseModel.objects.all()
         if start:
+            start = DatetimeHelper.to_datetime(start)
             qs = qs.filter(created_at__gte=start)
         if end:
+            end = DatetimeHelper.to_datetime(end)
             qs = qs.filter(created_at__lte=end)
 
         return qs
