@@ -17,7 +17,7 @@ create an account for yourself
 
 ### Populate the Database
 Create folders for local storage
-> mkdir -p images/tasks
+> $ mkdir -p images/tasks
 
 Please use `cases.csv` in `DLPIFP/Database/` on the drive
 > $ python manage.py load_cases {path to `cases.csv`}
