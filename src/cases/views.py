@@ -14,13 +14,32 @@ INVALID_FILTER = "invalid filter arguments: {details}"
 Todos:
     1. Authentication
     2. Provide detail reasons for BadRequest
-    3. add format hint for each api
 """
 class CaseView(APIView):
     ITEM_NAME = "Case"
 
     @classmethod
     def post(cls, request):
+        # Create a new `Case`
+
+        """
+        ===== request format =====
+            body:
+                {
+                    *case_id: string
+                    *product_name: string
+                    *batch_no: string
+                    *created_at: yyyy-mm-dd
+                }
+
+            query parameters:
+                NA
+            
+        ===== response format =====
+            {
+                all info of the newly created `Case`
+            }
+        """
         serializer = CaseSerializer(data=request.data)
 
         if serializer.is_valid():
@@ -31,9 +50,35 @@ class CaseView(APIView):
 
     @classmethod
     def get(cls, request):
+        # Get an existing `Case`
+
         """
-            Todos:
-                1. send the encoded image instead of file path
+        Todos:
+            1. respond with the encoded image instead of file path
+            
+        ===== request format =====
+            body:
+                NA
+            query parameters:
+                *case_id: string
+            
+        ===== response format =====
+            {
+                case: {
+                    all info of the case
+                },
+                task_set: [
+                    // all corresponding `Task`s
+
+                    {
+                        all info of task 1
+                    },
+                    {
+                        all info of task 2
+                    },
+                    ...
+                ]
+            }
         """
 
         case_id = request.query_params.get("case_id")
@@ -54,6 +99,28 @@ class CaseView(APIView):
 
     @classmethod
     def patch(cls, request):
+        # Update an existing `Case`
+
+        """
+        ===== request format =====
+            body:
+                anything you want to edit (except updated_at & id)
+                
+                e.g.
+                {
+                    batch_no: 12345678,
+                    product_name: blablabla,
+                    ...
+                }
+            
+            query parameters:
+                *case_id: string
+            
+        ===== response format =====
+            {
+                all info of the updated `Case`
+            }
+        """
         try:
             model = CaseManager.get_by_case_id(request.data.get("case_id"))
         except CaseModel.DoesNotExist:
@@ -68,6 +135,21 @@ class CaseView(APIView):
 
     @classmethod
     def delete(cls, request):
+        # Delete an existing `Case`
+
+        """
+        ===== request format =====
+            body:
+                NA
+            
+            query parameters:
+                *case_id: string
+            
+        ===== response format =====
+            {
+                all info of the deleted `Case`
+            }
+        """
         try:
             model = CaseManager.get_by_case_id(request.query_params.get("case_id"))
         except CaseModel.DoesNotExist:
@@ -81,6 +163,41 @@ class CaseView(APIView):
 class CaseListView(APIView):
     @classmethod
     def post(cls, request):
+        # Filter & return`Case`s 
+
+        """
+        ===== request format =====
+            body:
+                filter criteria
+
+                e.g.
+                {   
+                    status: [RESOLVED]
+                    products: [PGSG, SMAG],
+                    date_range: {
+                        start: yyyy-mm-dd
+                    }
+                }
+                -> return all 'Case's whose
+                    `status` == RESOLVED &&
+                    `product` in {PGSG, SMAG} &&
+                    `created_at` >= yyyy-mm-dd 
+
+            query parameters:
+                NA
+
+        ===== response format =====
+            {
+                all info of case 1
+            },
+            {
+                all info of case 2
+            },
+            ...
+
+            p.s. info of corresponding `Task`s is not returned
+        """
+
         content_type = "application/json"
 
         invalid_resp = ResponseHelper.verify_content_type(
@@ -140,6 +257,18 @@ class TaskView(APIView):
 
     @classmethod
     def post(cls, request):
+        # Create a new `Task` & assign it to an existing `Case`
+
+        """
+        ===== request format =====
+            please refer to api_samples/tasks/post.py
+            
+        ===== response format =====
+            {
+                all info of the newly created `Task`
+            }
+        """
+
         serializer = TaskSerializer(data=request.data)
 
         if serializer.is_valid():
@@ -150,10 +279,25 @@ class TaskView(APIView):
 
     @classmethod
     def patch(cls, request):
+        # Update an existing `Task`
+
         """
-            Todos:
-                1. prevent changing case_id here
+        Todos:
+            1. prevent changing case_id here
+        
+        ===== request format =====
+            body:
+                please refer to api_samples/tasks/patch.py
+            
+            query parameters:
+                *id: string
+            
+        ===== response format =====
+            {
+                all info of the updated `Task`
+            }
         """
+        
         try:
             model = TaskManager.get_by_id(request.query_params.get("id"))
         except TaskModel.DoesNotExist:
@@ -169,6 +313,22 @@ class TaskView(APIView):
 
     @classmethod
     def delete(cls, request):
+        # Delete an existing `Task`
+
+        """
+        ===== request format =====
+            body:
+                NA
+            
+            query parameters:
+                *id: string
+            
+        ===== response format =====
+            {
+                all info of the deleted `Task`
+            }
+        """
+
         task_id = request.query_params.get("id")
         try:
             task = TaskManager.get_by_id(task_id)
