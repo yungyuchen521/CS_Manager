@@ -5,7 +5,7 @@
 
 > $ pip install djangorestframework
 
-### Setup the Database
+### Initialize the Database
 create database
 > $ touch db.sqlite3
 
@@ -16,6 +16,9 @@ create an account for yourself
 > $ python manage.py createsuperuser
 
 ### Populate the Database
+Create folders for local storage
+> mkdir -p images/tasks
+
 Please use `cases.csv` in `DLPIFP/Database/` on the drive
 > $ python manage.py load_cases {path to `cases.csv`}
 
