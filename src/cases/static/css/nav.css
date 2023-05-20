@@ -1,0 +1,71 @@
+@charset "utf-8";
+/* CSS Document 下拉選單基本設定，都是固定寫法*/
+
+nav ul{
+	list-style: none;
+}
+
+nav li{
+	display: inline-block;
+	position: relative;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+/*==============level 1==============*/
+nav li a{
+	display: inline-block; /*有這行才可以設定寬高，整個框框不只文字都可以觸發效果*/
+	font-size:21px;
+	line-height:100px;
+	color: #000;
+	text-decoration:none;
+}
+
+/*==============level 2==============*/
+nav li ul{
+    position: absolute;
+    left: 0;     /*position: absolute; 對其外層的左邊框線*/
+
+	display:none;/*讓東西消失，一開始第二層不會出現，是滑鼠滑過 hover 第一層時才要出現*/
+    margin: 0;
+
+    border-bottom:solid #00000058 1px;
+    border-left:solid #00000058 1px;
+    border-right:solid #00000058 1px;
+}
+
+nav ul ul a{
+	margin:0;
+	color:#000;
+	background: rgba(255, 255, 255, 1);
+    font-size:18px;
+    line-height:50px;
+    width: 350px; /*裡面德選項的長度，還是在 nav.html 設定比較好*/
+}
+nav ul ul{
+    background: rgba(255, 255, 255, 1);
+}
+
+nav ul ul a:hover{
+	color: #4C94D9;
+}
+nav ul li:hover > ul{
+	/*> 是為了只叫出第二層，不要叫出第三層*/
+    display: block; /*滑鼠滑過第一層才會顯示該層下的第二層*/
+}
+nav ul li:hover > a{ /*當選取第二層時，其向上的第一層也會維持變色*/
+    color:#4C94D9;
+	/* background: #e4dede; */
+}
+
+
+
+/*==============level 3 and more，因為3以後的第幾層都是往右長，所以可以直接複製設定，不像第二層是往下長所以需要其他設定==============*/
+nav ul ul li:hover > ul{ 
+	/*大於符號代表限用於 "直接" 的子元素，再往下一層的話就不算在內。如果是空格的話就是裡面所有的 ul 都會被設定到*/
+	/*比如現在有三層 nav ，那你不會希望第一層華過去第三層就出現，而是滑到所屬第二層才要出現*/
+    display: block;
+    position: absolute;
+    top: 0;    
+    left: 100%;
+}

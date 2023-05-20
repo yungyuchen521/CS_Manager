@@ -8,9 +8,14 @@ from src.utils import DatetimeHelper
 
 class CaseManager:
     @staticmethod
+    def get_all_cases():
+        return CaseModel.objects.all()
+    
+    @staticmethod
     def get_by_case_id(case_id: str):
         return CaseModel.objects.get(case_id=case_id)
 
+    # return a case
     @staticmethod
     def get_with_task_set_by_case_id(case_id: str):
         return (

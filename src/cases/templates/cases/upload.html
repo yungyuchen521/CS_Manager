@@ -1,0 +1,164 @@
+{% extends "cases/base.html" %}
+{% block style %}
+<style>
+    .form h2{
+        margin-bottom: 20px;
+        border-bottom: 1px solid #fff;
+        padding-bottom: 10px;
+    }
+    .form .group{
+        margin-bottom: 15px;
+    }
+    .form label{
+        line-height: 2;
+        font-size: 19px;
+        margin-right: 10px;
+        /* float: left; */
+    }
+    .form input{
+        /* width: 100% ; */
+        /* float: right; */
+        width: 150px;
+        border: 1px solid #aaa;
+        line-height: 2;
+        border-radius: 5px;
+    }
+    .form .btn{
+        float: right;
+        border: none;
+        border-radius: 10px;
+        font-size: 21px;
+    }
+
+    .form .btn-group{
+        font-size: 0; 
+        display: inline;
+    }   
+    .myinput {
+        height: 35px;
+    }
+    .textinput{
+        height: 100px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- banner 主要看 css 裡面 -->
+<div class="banner">
+    <div class="MidText"><b>Upload Page</b></div>
+</div>
+
+<section>
+    <br><br><br>
+    <p class="title">網頁使用教學</p>
+    <p class="context">
+        <ul>
+            <li>將收到的案例依照規定格式(物件置中、不要有尺、長寬盡量等長)拍照，一個案例可以有多張照片</li>
+            <li>一個一個案例分開獨立上傳，你可以在頁面下方即時看到資料更新</li>
+            <li>所有案例上傳完畢後，點擊 submit 按鈕傳送至後端，等待處理</li>
+            <li>後端網路分析結束後，將自動導向 result page ，可於 result page 查看分析結果</li>
+            <li>確認結果無誤或修正後，即可將本次客訴案例調查結果匯出成 pdf 檔傳送至客服端</li>
+            <li>完成後網頁將會自動清除本次調查結果，方便下次上傳案例時使用</li>
+        </ul>
+    </p>
+    <br><br><br>
+    <p class="title">上傳單一案例</p>
+    <p class="context"><b>請輸入案例的資訊，並上傳該案例的所有圖片(最多三張)</b></p>
+    <form method="post" action="" enctype="multipart/form-data" class="form" style="display: flex;">
+        <div style="display: flex;">
+            {% csrf_token %}
+            <div style="flex:4;">                
+                <div class="group">
+                    {{ caseform.cases_id.label_tag }}{{ caseform.cases_id }}
+                </div>
+                <div class="group">
+                    {{ caseform.status.label_tag }}{{ caseform.status }}
+                </div>
+                <div class="group">
+                    {{ caseform.product_name.label_tag }}{{ caseform.product_name }}
+                </div>
+                <div class="group">
+                    {{ caseform.batch_no.label_tag }}{{ caseform.batch_no }}
+                </div>
+                <div class="group">
+                    {{ caseform.product_specs.label_tag }}{{ caseform.product_specs }}
+                </div>
+                <div class="group">
+                    {{ caseform.location.label_tag }}{{ caseform.location }}
+                </div>
+                <div class="group">
+                    {{ caseform.product_issue.label_tag }}{{ caseform.product_issue }}
+                </div>
+                <div class="group">
+                    {{ caseform.created_at.label_tag }}{{ caseform.created_at }}
+                </div>
+            </div>
+            <div style="flex:1"></div>
+            <div style="flex:3">                
+                <div class="group">
+                    {{ caseform.issue_details.label_tag }}{{ caseform.issue_details }}
+                </div>
+                <div class="group">
+                    {{ caseform.oem_feedback.label_tag }}{{ caseform.oem_feedback }}
+                </div>
+                <div class="group">
+                    {{ caseform.oem_status.label_tag }}{{ caseform.oem_status }}
+                </div>
+            </div>
+            <div style="flex:1"></div>
+            <div style="flex: 3">                
+                {{ caseform.image1.label_tag }}{{ caseform.image1 }}
+                <br>
+                {{ caseform.image2.label_tag }}{{ caseform.image2 }}
+                <br>
+                {{ caseform.image3.label_tag }}{{ caseform.image3 }}
+                <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+                <div class="btn-group">
+                    <input class="btn btn-primary" type = "submit" value="新增個案">
+                </div>
+            </div>
+        </div>
+    </form>
+
+
+    <!-- 顯示當前上傳圖片的程式碼 -->
+    <br><br><br>
+    <p class="title">目前新增的案例</p>
+
+    <div class="cardbox">
+        {% for case in today_cases %}
+            <div class="card"   data-bs-toggle="modal" data-bs-target="{{case.id}}">
+                <br>
+                <p style="font-size: 19px;">產品名稱: {{case.product_name}}</p>
+                <p style="font-size: 17px;">
+                    個案號碼: {{case.case_id}}<br>
+                    產品批號: {{case.batch_no}}<br>
+                    產品狀態: {{case.status}}<br>
+                    產品規格: {{case.product_specs}}<br>
+                    產品問題: {{case.product_issue}}<br>
+                </p>
+            </div>
+        {% endfor %}
+    </div>
+
+    {% for case in today_cases %}
+
+    {% endfor %}
+
+
+    
+    <!-- <br><br><br>
+    <p class="title">圖片 demo 用</p>
+    {% for task in tasks %}
+        <div class="col-md-4">
+            <div class="card mb-4 shadow-sm">
+                <img class="card-img-top" src="{{ task.img.url }}" />
+            </div>
+        </div>
+    {% endfor %} -->
+
+</section>
+
+
+{% endblock %}
