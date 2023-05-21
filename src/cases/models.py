@@ -69,6 +69,8 @@ class TaskModel(models.Model):
         related_name="task_set",
     )
 
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     def delete(self, *args, **kwargs):
         self.delete_img()

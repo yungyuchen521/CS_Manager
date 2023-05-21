@@ -355,32 +355,13 @@ def result_view(request):
     })
 
 def upload_view(request):
-    now = datetime.now()
-    yesterday = now - timedelta(days=365)
-    # yesterday_2359 = datetime(yesterday.year, yesterday.month, yesterday.day, 23, 59, 59)   # 2023-05-19 23:59:59
-    yesterday_2359 = datetime(2023, 2, 1, 23, 59, 59)   # 2023-05-19 23:59:59
-    today_cases = CaseManager.filter_by_date_range(start=yesterday_2359, end=now)
-    today_cases_with_img = [] # a list of tuple (case, first img of that case) ，要這樣做html才讀的到 = =，因為Django 的 html 不給用 [] 讀取
-    for case in today_cases:
-        if case.task_set.all().count() > 0:
-            print("------------------------case.task_set.all() = ", case.task_set.all())
-            today_cases_with_img.append((case, case.task_set.all()[0]))
-        else:
-            today_cases_with_img.append((case, None))
-
-
-    today_cases_imgs = [] # a list of list, inner list is a list of img of corr case
-    for case in today_cases:
-        today_cases_imgs += case.task_set.all() # return a list of img of this case
 
     if request.method == 'POST':
-        print("in 1")
-        caseform = CasesForm(request.POST)
+        caseform = CasesForm(request.POST, request.FILES)
 
         if caseform.is_valid():
-            print("in 2")
             new_case = CaseModel(
-                case_id=caseform.cleaned_data['cases_id'], 
+                case_id=caseform.cleaned_data['case_id'], 
                 status=caseform.cleaned_data['status'], 
                 product_name=caseform.cleaned_data['product_name'], 
                 batch_no=caseform.cleaned_data['batch_no'], 
@@ -393,31 +374,49 @@ def upload_view(request):
             new_case.save()
 
 
-
             if caseform.cleaned_data.get('image1'):
                 new_img = TaskModel(
                     img = caseform.cleaned_data['image1'],
-                    case = new_case.case_id,
-                    created_at=caseform.cleaned_data['created_at'], 
+                    case = new_case,
                 )
                 new_img.save()
             if caseform.cleaned_data.get('image2'):
                 new_img = TaskModel(
                     img = caseform.cleaned_data['image2'],
                     case = new_case.case_id,
-                    created_at=caseform.cleaned_data['created_at'], 
                 )
                 new_img.save()
             if caseform.cleaned_data.get('image3'):
                 new_img = TaskModel(
                     img = caseform.cleaned_data['image3'],
                     case = new_case.case_id,
-                    created_at=caseform.cleaned_data['created_at'], 
                 )
                 new_img.save()
-    
+
+            # 清空上次的輸入框內容
+            caseform.initial = {}
+            caseform.data = {}
+        else:
+            print(" caseform.is_valid() fail ")
     else:
         caseform = CasesForm()
+
+
+    now = datetime.now()
+    yesterday = now - timedelta(days=1)
+    yesterday_2359 = datetime(yesterday.year, yesterday.month, yesterday.day, 23, 59, 59)   # 2023-05-19 23:59:59
+    today_cases = CaseManager.filter_by_date_range(start=yesterday_2359, end=now)
+    today_cases_with_img = [] # a list of tuple (case, first img of that case) ，要這樣做html才讀的到 = =，因為Django 的 html 不給用 [] 讀取
+    for case in today_cases:
+        if case.task_set.all().count() > 0:
+            today_cases_with_img.append((case, case.task_set.all()[0]))
+        else:
+            today_cases_with_img.append((case, None))
+
+
+    today_cases_imgs = [] # a list of list, inner list is a list of img of corr case
+    for case in today_cases:
+        today_cases_imgs += case.task_set.all() # return a list of img of this case
 
     return render(request, 'cases/upload.html',{
         'caseform' : caseform,

@@ -108,7 +108,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Taipei' # 你原本是 UTC，但是我要用時間過濾所以我改成 Asia/Taipei
 
 USE_I18N = True
 

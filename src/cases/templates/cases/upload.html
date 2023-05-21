@@ -65,12 +65,12 @@
     <br><br><br>
     <p class="title">上傳單一案例</p>
     <p class="context"><b>請輸入案例的資訊，並上傳該案例的所有圖片(最多三張)</b></p>
-    <form method="post" action="" enctype="multipart/form-data" class="form" style="display: flex;">
+    <form id="uploadForm" method="post" action="" enctype="multipart/form-data" class="form" style="display: flex;">
         <div style="display: flex;">
             {% csrf_token %}
             <div style="flex:4;">                
                 <div class="group">
-                    {{ caseform.cases_id.label_tag }}{{ caseform.cases_id }}
+                    {{ caseform.case_id.label_tag }}{{ caseform.case_id }}
                 </div>
                 <div class="group">
                     {{ caseform.status.label_tag }}{{ caseform.status }}
@@ -115,7 +115,7 @@
                 {{ caseform.image3.label_tag }}{{ caseform.image3 }}
                 <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
                 <div class="btn-group">
-                    <input class="btn btn-primary" type = "submit" value="新增個案">
+                    <input id="uploadButton" class="btn btn-primary" type = "submit" value="新增個案">
                 </div>
             </div>
         </div>
@@ -138,13 +138,14 @@
                     產品規格: {{case.product_specs}}<br>
                     產品問題: {{case.product_issue}}<br>
                 </p>
+
             </div>
         {% endfor %}
     </div>
 
-    {% for case in today_cases %}
+    <!-- for 詳細介紹的 modal -->
 
-    {% endfor %}
+
 
 
     

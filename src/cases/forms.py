@@ -9,7 +9,7 @@ from src.cases.define import (
 
 
 class CasesForm(forms.Form):
-    cases_id = forms.CharField(max_length=16, label="個案號碼", required=True, 
+    case_id = forms.CharField(max_length=16, label="個案號碼", required=True, 
                                 widget=forms.TextInput(attrs={'class': 'myinput'}),)
     status = forms.ChoiceField(choices=CASE_STATUS_CHOICES, label="狀態", required=True)
 
@@ -31,7 +31,9 @@ class CasesForm(forms.Form):
 
     oem_feedback = forms.CharField(label="原廠 feedback ", widget=forms.Textarea(attrs={'class': 'textinput'}))
     oem_status = forms.CharField(label="原廠 feedback Status", widget=forms.Textarea(attrs={'class': 'textinput'}))
-    created_at = forms.DateTimeField(label="立案時間", required=True)
+    created_at = forms.DateTimeField(label="立案時間", required=True, widget=forms.DateTimeInput(attrs={'type': 'date'})) # 預設是用文字框顯示，用Widget 來自訂欄位的顯示方式。
+
+
 
 
     image1 = forms.ImageField(required=False, label="image1")
