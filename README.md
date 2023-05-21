@@ -24,6 +24,7 @@ Please use `cases.csv` in `DLPIFP/Database/` on the drive
 
 Please use the `images` folder in `DLPIFP/Database/` on the drive
 > $ python manage.py load_tasks {path to `images`}
+> $ python manage.py collectstatic
 
 ### Run the System
 > $ python manage.py runserver
