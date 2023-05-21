@@ -32,7 +32,7 @@ class CaseModel(models.Model):
 
     product_issue = models.CharField(
         max_length=16,
-        choices=PRODUCT_ISSUE_CHOICES,
+        choices=PRODUCT_ISSUE_CHOICES, # choices 代表只能從裡面挑一個
         null=True,
         blank=True,
     ) # 產品問題
@@ -42,7 +42,7 @@ class CaseModel(models.Model):
     oem_status = models.TextField(null=True, blank=True) # 原廠 feedback Status
 
     created_at = models.DateTimeField() # 立案日期 (auto_now_add should be True in Prod)
-    updated_at = models.DateTimeField(auto_now=True)
+    updated_at = models.DateTimeField(auto_now=True, editable=False, )
 
 
 class TaskModel(models.Model):
