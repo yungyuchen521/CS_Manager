@@ -1,4 +1,4 @@
-from typing import Iterable, Optional
+from typing import Iterable, List, Optional
 
 from django.db.models import QuerySet
 
@@ -80,3 +80,7 @@ class TaskManager:
     @staticmethod
     def get_by_case_id(case_id: str):
         return TaskModel.objects.filter(case__case_id=case_id)
+
+    @staticmethod
+    def bulk_update(tasks: Iterable[TaskModel], fields: List[str]):
+        return TaskModel.objects.bulk_update(tasks, fields=fields)
