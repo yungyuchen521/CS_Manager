@@ -17,7 +17,9 @@ from src.cases.define import (
 """
 class MockModel(torch.nn.Module):
     def forward(self, imgs):
-        return torch.rand(len(imgs), 5)
+        import time
+        time.sleep(5)  # simulate the time cost by the model
+        return torch.rand(len(imgs), 4)
 
 
 class Classifier:
