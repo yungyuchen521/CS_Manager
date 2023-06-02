@@ -19,6 +19,33 @@ class CaseManager:
             .get(case_id=case_id)
         )
 
+    def get_majority_class_from_tasks(self, case_id) -> Optional[str]:
+        tasks = CaseManager.get_with_task_set_by_case_id(case_id).task_set.all()
+        
+        votes = {}
+        for task in tasks:
+            cat = task.category
+            if cat is None:
+                continue
+
+            if cat in votes:
+                votes[cat] += 1
+            else:
+                votes[cat] = 1
+
+        max_vote = 0
+        max_cat = None
+        for cat, vote in votes.items():
+            if vote > max_vote:
+                max_vote = vote
+                max_cat = cat
+        
+        return max_cat
+
+    @staticmethod
+    def bulk_update(cases: List[CaseModel], fields: List[str]):
+        return CaseModel.objects.bulk_update(objs=cases, fields=fields)
+
     @staticmethod
     def filter_by_status(status: str, qs: Optional[QuerySet]=None):
         if qs is None:
