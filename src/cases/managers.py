@@ -1,7 +1,8 @@
-from typing import Iterable, List, Optional
+from typing import Dict, Iterable, List, Optional
 
 from django.db.models import QuerySet
 
+from src.cases.define import CATEGORY_LIST
 from src.cases.models import CaseModel, TaskModel
 from src.utils import DatetimeHelper
 
@@ -41,6 +42,33 @@ class CaseManager:
                 max_cat = cat
         
         return max_cat
+
+    def get_batch_report(self, qs: Optional[QuerySet]=None) -> Dict[str, Dict[str, List[str]]]:
+        if qs is None:
+            qs = CaseModel.objects.all()
+
+        qs = qs.filter(category__isnull=False).only("case_id", "batch_no", "category")
+        batch_report: Dict[str, Dict[str, List[str]]] = {}
+        """
+            {
+                batch_no_1: {
+                    category_1: [case_id_1, ...],
+                    category_2: [case_id_2, ...],
+                    ...
+                },
+                batch_no_2: {
+                    ...
+                }
+            }
+        """
+        for c in qs:
+            b_no = c.batch_no
+            if b_no not in batch_report:
+                batch_report[b_no] = {cat: [] for cat in CATEGORY_LIST}
+
+            batch_report[b_no][c.category].append(c.case_id)
+
+        return batch_report
 
     @staticmethod
     def bulk_update(cases: List[CaseModel], fields: List[str]):

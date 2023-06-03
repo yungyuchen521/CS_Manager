@@ -5,10 +5,10 @@ import torch
 import torchvision
 
 from src.cases.define import (
-    TASK_RESULT_FIBER,
-    TASK_RESULT_SCORCH,
-    TASK_RESULT_CAKING,
-    TASK_RESULT_OTHERS,
+    CATEGORY_FIBER,
+    CATEGORY_SCORCH,
+    CATEGORY_CAKING,
+    CATEGORY_OTHERS,
 )
 
 
@@ -27,10 +27,10 @@ class Classifier:
 
     """ change the mapping when the model is ready """
     RESULT_MAPPING = {
-        0: TASK_RESULT_CAKING,
-        1: TASK_RESULT_FIBER,
-        2: TASK_RESULT_SCORCH,
-        3: TASK_RESULT_OTHERS,
+        0: CATEGORY_CAKING,
+        1: CATEGORY_FIBER,
+        2: CATEGORY_SCORCH,
+        3: CATEGORY_OTHERS,
     } 
 
     def __init__(self):

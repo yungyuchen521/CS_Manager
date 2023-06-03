@@ -6,7 +6,7 @@ from django.db import models
 from src.cases.define import (
     CASE_STATUS_CHOICES,
     CASE_STATUS_PENDING,
-    TASK_RESULT_CHOICES,
+    CATEGORY_CHOICES,
     PRODUCT_ISSUE_CHOICES,
 )
 
@@ -47,7 +47,7 @@ class CaseModel(models.Model):
     # ========== 預測結果 ==========
     category = models.CharField(
         max_length=32,
-        choices=TASK_RESULT_CHOICES,
+        choices=CATEGORY_CHOICES,
         blank=True,
         null=True,
     )
@@ -66,7 +66,7 @@ class TaskModel(models.Model):
     img = models.ImageField(upload_to="tasks/")
     category = models.CharField(
         max_length=32,
-        choices=TASK_RESULT_CHOICES,
+        choices=CATEGORY_CHOICES,
         blank=True,
         null=True,
     )
