@@ -5,6 +5,10 @@
 
 > $ pip install djangorestframework
 
+> $ pip install torch
+
+> $ pip install torchvision
+
 ### Initialize the Database
 create database
 > $ touch db.sqlite3

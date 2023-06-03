@@ -44,6 +44,18 @@ class CaseModel(models.Model):
     created_at = models.DateTimeField() # 立案日期 (auto_now_add should be True in Prod)
     updated_at = models.DateTimeField(auto_now=True)
 
+    # ========== 預測結果 ==========
+    category = models.CharField(
+        max_length=32,
+        choices=TASK_RESULT_CHOICES,
+        blank=True,
+        null=True,
+    )
+    report = models.TextField(
+        blank=True,
+        null=True,
+    )
+
 
 class TaskModel(models.Model):
     class Meta:
@@ -55,10 +67,6 @@ class TaskModel(models.Model):
     category = models.CharField(
         max_length=32,
         choices=TASK_RESULT_CHOICES,
-        blank=True,
-        null=True,
-    )
-    result = models.TextField(
         blank=True,
         null=True,
     )
