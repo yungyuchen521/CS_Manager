@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.utils.html import format_html
 
 from src.cases.models import CaseModel, TaskModel
-from src.cases.managers import CaseManager
+from src.cases.managers import CaseManager, TaskManager
 from src.cases.actions import analyze_cases, classify_tasks
 
 
@@ -21,7 +21,7 @@ class CaseAdmin(admin.ModelAdmin):
     ]
     list_editable = ["category", "report"]
 
-    actions = ["analyze"]
+    actions = ["analyze", "clear_analysis"]
 
     @staticmethod
     def tasks(obj):
@@ -35,6 +35,22 @@ class CaseAdmin(admin.ModelAdmin):
 
         for case in queryset:
             self.message_user(request, f"<Case {case.case_id}> scheduled for analysis")
+
+    @admin.action(description="clear anaylysis and report")
+    def clear_analysis(self, request, queryset):
+        tasks_affected = []
+
+        for case in queryset:
+            case.category = None
+            case.report = None
+            for task in case.task_set.all():
+                task.category = None
+                tasks_affected.append(task)
+
+            self.message_user(request, f"<Case {case.case_id}> cleared")
+
+        CaseManager.bulk_update(queryset, fields=["category", "report"])
+        TaskManager.bulk_update(tasks_affected, fields=["category"])
 
 
 @admin.register(TaskModel)

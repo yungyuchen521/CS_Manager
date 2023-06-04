@@ -44,7 +44,7 @@ def analyze_cases(cases: List[CaseModel], force: bool=False):
 def classify_tasks(tasks: List[TaskModel], force: bool=False):
     img_paths = [
         settings.MEDIA_ROOT / task.img.path for task in tasks
-        if (force is False) and (not task.category) 
+        if force or (task.category is None)
     ]  # skip tasks which were already classified if `force` is false
     results = classifier.predict(img_paths)
 

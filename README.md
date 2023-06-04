@@ -30,6 +30,9 @@ Please use the `images` folder in `DLPIFP/Database/` on the drive
 > $ python manage.py load_tasks {path to `images`}  
 > $ python manage.py collectstatic
 
+### Model
+Please put the model at ./nn_model. ([download link](https://drive.google.com/file/d/10At8oja9Lga58Lyr1uHkx4FYWQTVp4FP/view?usp=share_link))
+
 ### Run the System
 > $ python manage.py runserver
 
