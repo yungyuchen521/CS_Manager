@@ -27,8 +27,8 @@ class Command(BaseCommand):
             for _ in range(30)
         ]
 
-        case_model_list = []
-        task_model_list = []
+        # case_model_list = []
+        # task_model_list = []
         pending_copies = []
 
         for sub_dir in dir_path.iterdir():
@@ -45,7 +45,8 @@ class Command(BaseCommand):
                     batch_no=random.choice(batch_no_list),
                     created_at=rand_date,
                 )
-                case_model_list.append(new_case)
+                new_case.save()
+                # case_model_list.append(new_case)
                 delta_list = delta_list[1:]
 
                 task_cnt = self._rand_task_cnt()
@@ -56,7 +57,8 @@ class Command(BaseCommand):
                         img=str(Path("tasks") / img.name),
                         case=new_case,
                     )
-                    task_model_list.append(new_task)
+                    new_task.save()
+                    # task_model_list.append(new_task)
 
                     dst_path = settings.MEDIA_ROOT / "tasks" / img.name
                     assert not dst_path.exists()
@@ -64,8 +66,8 @@ class Command(BaseCommand):
                     pending_copies.append((src_path, dst_path))
 
         assert len(pending_copies) == len(set(pending_copies))     
-        CaseModel.objects.bulk_create(case_model_list)
-        TaskModel.objects.bulk_create(task_model_list)
+        # CaseModel.objects.bulk_create(case_model_list)
+        # TaskModel.objects.bulk_create(task_model_list)
 
         for src, dst in pending_copies:
             shutil.copy(src, dst)

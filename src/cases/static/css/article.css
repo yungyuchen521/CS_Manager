@@ -1,0 +1,120 @@
+/* article標籤 是: 左邊圖片右邊文字 或者 右邊圖片左邊文字 的設計 */
+/* RWD 到手機的時候應該就變成上下的八*/
+/* 其中文字的 div 的 class 為 desbox、 圖片的 div 的 class 為 picbox*/
+/* 如果要滑鼠移動到圖片上的時候顯示 more 按鈕，可以再加上 .fadebox div ，不要的話就刪掉就好*/
+/* html 例子
+	<article>
+		<div class="picbox">
+			<img src="img/home/Data Collection.png" alt="veg" />
+			<div class="fadebox">
+				<a href="Scenario.html"><div>More</div></a>
+			</div>
+		</div>
+		<div class="desbox">
+			<h1>Scenario Taxonomy and Collection</h1>
+			XXXXXXXXXXXXXXXXXXX
+		</div>
+	</article>
+ */
+
+/******************************   article ，也就是左右分別為 一張圖片、解釋文字 的東西***************************/
+article{
+	float:left;
+	width:100%;
+	box-sizing:border-box;
+	margin:50px 0px 0px;
+	/* background:#00000013; */
+	background:#cfdfed7e;
+}
+article:nth-child(2n){
+	/*2n 代表只有雙數的要套用這些設定，取代 Table，感覺可以改*/
+	background: #cfdfed;	
+}
+
+article .picbox, article .desbox{
+	float: left; /*特別注意到兩個都是往左浮動(而不是一左一右)，然後 html 裡面有手動調整文字跟圖片的上下順序。因為 float 會幫你保證不會重疊*/
+	position: relative;
+	width: 50%;
+	box-sizing: border-box;
+	height: 300px;
+}
+
+
+/*desbox*/
+article .desbox{
+	/* padding: 80px; */
+	padding-top: 40px;
+	padding-left: 40px;
+	padding-bottom: 80px;
+	padding-right: 40px;
+	line-height: 2em;
+	text-align: justify; /*文字左右兩邊對齊*/
+}
+article .desbox h1{
+	font-family: 'Noto Serif TC', serif;
+    /* font-family: Comic Sans MS, Comic Sans, cursive; */
+	font-weight:900;
+	font-size:23px;
+	color: #1A63A4;
+	line-height:2em;
+}
+article .desbox ul{
+	list-style-type:circle;
+}
+article .desbox li{
+    font-size: 19px;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    padding-top: 10px;
+    line-height: 24px;
+    color: #000000b3;
+}
+article .desbox p{
+	padding-top: 20px;
+    /* padding-bottom: 10px; */
+    line-height: 30px;
+    font-size: 19px;
+    color: #000000b3;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+}
+
+.picbox img{
+	height: 300px;
+	width: 100%;
+}
+
+
+/************************** for fadebox *********************/
+.picbox:hover img{
+	-webkit-filter: brightness(30%); /* Safari */
+	filter: brightness(30%); /*濾鏡功能，看起來就是亮度*/
+}
+.picbox:hover .fadebox{
+	opacity: 1;
+}
+.fadebox{
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	-ms-transform: translate(-50%, -50%);
+	-webkit-transform: translate(-50%, -50%);
+	transform:translate(-50%, -50%);/*translate 搭配 left 50% 跟 top 50% 可以真正的隊到正中間，而不是物件左上角在容器的正中間*/
+	opacity: 0;/*一開始看不見，滑鼠上去才變成 opacity = 1 ，才能看的見*/
+	cursor: pointer;
+}
+.fadebox a{
+	display: block;
+	font-size: 25px;
+	padding: 16px 32px;
+	color: rgba(255,255,255,1);
+	text-decoration: none;
+	background: #1A63A4;
+}
+.fadebox a:hover{
+	color: #1A63A4;
+	background: rgba(255,255,255,1);
+}
+
+@media only screen and (min-width: 768px) {
+
+
+}

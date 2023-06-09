@@ -1,0 +1,80 @@
+/*
+    banner : 網頁最上方背景圖片 + 大標題文字
+    特別注意，後面的背景圖片每一個網頁可能都不一樣，所以還是要記得換圖片跟 height，不能只有 import
+    */
+    .banner{
+        position: relative;
+        overflow:hidden;
+        text-align:center;
+        vertical-align: bottom; 
+        width:100%;
+        min-width:1200px;
+        height:350px;
+        background:url(../img/background2.png) no-repeat;
+        background-size:100%;
+    }
+    
+    /* 
+    動畫可以讓文字從左邊飄進來，所以稱為 animation text -> anitext
+    只有設計的文字就叫做 .BigText 跟 .SmallText ，如果要加動畫在給他 .anitext
+    */
+    .BigText{
+        position:absolute;
+        top:30%;
+        left:10%;
+    
+        font-family: 'Courgette', cursive;
+        color:#000000a7;
+        font-size:120px;
+    }
+    .MidText{
+        padding-top: 100px;
+    
+        font-family: 'Courgette', cursive;
+        color:#FFF;
+        font-size:60px;
+        background-color: #00000064; 
+    }
+    .SmallText{
+        position:absolute;
+        top:22%;
+        left:10%;
+    
+        font-family: 'Courgette', cursive;
+        color:#000000a7;
+        font-size:50px;
+    }
+    
+    .anitext{
+        opacity:0;
+    
+        /*上下內容一樣， for 瀏覽器而已*/
+        animation-name: ant;
+        animation-duration: 4s;
+        animation-iteration-count: 1;
+        animation-timing-function: ease;
+        animation-delay: 1s;
+        animation-direction: normal;
+        animation-fill-mode: forwards;
+        
+        -webkit-animation-name: ant; /* 動畫名稱，要用名稱來呼叫他 */
+        -webkit-animation-duration: 4s; /* 動畫時間3秒 */
+        -webkit-animation-iteration-count: 1; /* 播放次數1次 */
+        -webkit-animation-timing-function: ease; /* 動態方式漸慢開始與結束 */
+        -webkit-animation-delay: .4s; /* 1秒後播放 ，給瀏覽器跑慢一點的扣搭，不然背景還沒載完就開始波動畫*/
+        -webkit-animation-direction: normal; /* 動畫播放順序為順向，順播或者逆播 */
+        -webkit-animation-fill-mode: forwards; /* 動畫結束後停格於最後一格，需搭配direction，比如方形漸變成圓形，如果這編寫 forward 他就會停留在圓形，
+                                                    阿如果你  direstion 寫的是逆播，就會變成圓形變成方形之後最後停留在圓形，爆醜 */
+    }
+    
+    
+    @keyframes ant{ /*這邊 ant 是你前面設定的動畫名稱，上面 anitext 有設定的都可以修改*/
+        from{
+            left: 0%;/*根據上面 anitext 設定，最後會定格在 left 10%，往右移*/
+            /*比如你想要左下移動到右上，就可以在這邊在家上 top*/
+        }
+        to {
+            opacity: 1; /*根據上面 anitext 設定，原本是 0，會後變成 1 ，也就是逐漸顯示*/
+        }
+    }
+    

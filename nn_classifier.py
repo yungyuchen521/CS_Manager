@@ -49,6 +49,9 @@ class Classifier:
         self._model.load_state_dict(torch.load(self.MODEL_PATH, map_location=torch.device("cpu")))
 
     def predict(self, img_paths: List[Path]) -> List[str]:
+        if len(img_paths) == 0:
+            return []
+
         imgs = [Image.open(p) for p in img_paths]
         imgs = [self._preprocess(img) for img in imgs]
         imgs = torch.stack(imgs)

@@ -18,14 +18,24 @@ from django.urls import path
 from django.conf import settings
 from django.conf.urls.static import static
 
-from src.cases.views import CaseView, CaseListView, TaskView
+from src.cases.api_views import CaseView, CaseListView, TaskView
+from src.cases.views import upload_view, update, result_view, classification, export_to_pdf
 
 
 urlpatterns = [
     path("admin/", admin.site.urls),
+    
+    # api_views
     path("case", CaseView.as_view()),
     path("case-list", CaseListView.as_view()),
     path("task", TaskView.as_view()),
+
+    # views
+    path("upload/", upload_view, name='upload'),
+    path("result/", result_view, name='result'),
+    path("update/", update, name='update'),
+    path("classification/", classification, name='classification'),
+    path("export-to-pdf/", export_to_pdf, name='export_to_pdf'),
 ]
 
 if settings.DEBUG:

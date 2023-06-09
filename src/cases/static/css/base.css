@@ -1,0 +1,136 @@
+/* 
+    就是整個網頁基底的設計 css
+    包含 header、section
+    且 import nav.css 跟 footer.css 跟 totop.scc
+ */
+
+
+ @charset "utf-8";
+ /* CSS Document */
+ @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;900&display=swap');
+ @import url('https://fonts.googleapis.com/css2?family=Courgette&display=swap');
+ @import url('nav.css');
+ 
+ *{
+     margin: 0;
+     padding: 0;
+ }
+ 
+ body{
+     font-family: 'Times New Roman', 'Noto Serif TC', serif;
+ }
+ ::-moz-selection{ /* for Firefox */
+     color:#000;
+     background: rgb(232, 177, 66);
+ }
+ 
+ ::selection{
+     color:#000;
+     background: rgb(232, 177, 66);
+ }
+
+/*********************************************header****************************************/
+header{
+    position:relative;
+	width:100%; /*稱滿整個連覽器寬度*/
+	background: rgba(255, 255, 255, 1);
+	box-sizing:border-box;
+	margin:auto;
+	height: 100px;
+	position:-webkit-sticky;
+	position:sticky;
+	top: 0;
+	z-index: 2000;
+    border-bottom:solid #00000058 1px;
+}
+.h-box{ /*上面的 nav 寬度*/
+	width: 80%;
+	margin: auto;
+}
+.h-box img{
+	float: left;
+    height: 98px;
+}
+nav{
+	float: right;
+	z-index: 9000; /*彈出視窗是 10000*/
+    height: 100px;
+}
+
+
+
+
+
+
+/****************************************************** section ************************************************/
+/* 基本上文字有芬這幾種 : 
+    title : 水平置中大標，28px
+    subtitle : 水平置中的幾行次標題，25px
+    h1 : 文字中置左的標題，25px，自己嘉粗體
+    h2 : 文字中置左次標題，23
+    context : 基本文字，19px
+    comment : 放在圖片下面的註解，不須在 css 做任何設定的原始 <p>
+    code : 包在 <pre><code> .... </code></pre> 中間就可以了，但是要注意縮排要往左，因為他連縮排都會顯示在 web 上
+    link : 超連結 <a> 的文字，就是要記得基於你的網頁色調改顏色
+
+    圖片則是 : 
+    single picture (.single_pic) : 整個水平線只有這張圖，置中。這邊要記得在 html 設定這張圖的 width 比較好
+    card : 上圖片 + 下文字，需要額外 import card.css
+    article : 左圖片 + 右文字(或者反之)， 需要額外 import article.css 
+*/
+section{
+	width:70%;
+	/* min-width:1500px; */
+	margin:auto;
+}
+section .title{
+    font-size: 28px;   
+    margin: 0;
+    text-align:center;
+}
+section .subtitle{
+    padding-top: 10px;
+    padding-bottom: 10px;
+    line-height: 30px;
+    font-size: 25px;
+    color: #1A63A4;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    text-align: center;
+}
+section .context{
+    padding-top: 10px;
+    padding-bottom: 10px;
+    line-height: 30px;
+    font-size: 19px;
+    color: #000000b3;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+}
+section a:link{
+    color: #4C94D9;
+}
+section h1{
+	font-size: 25px;
+}
+section h2{
+	font-size: 23px;
+}
+section .code{
+    font-family: monospace;
+	background-color: #d6d5d5;
+	font-size: 17px;
+}
+
+section ul{
+    font-size: 19px;   
+}
+section .single_pic{
+    text-align:center;
+}
+
+
+/* for padding div，就相當於<br>但是<br>在 float 裡面有限制，所以直接這樣做*/
+.padding{
+	clear: both; /*取消之前打得 float*/
+	height: 50px;
+	background-color: #FFF;
+}
