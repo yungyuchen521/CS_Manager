@@ -8,28 +8,21 @@ from src.cases.models import CaseModel, TaskModel
 from src.cases.managers import CaseManager, TaskManager
 
 
-def thread(func):
-    def wrapper(*args):
-        t = Thread(target=func, args=args)
-        t.start()
-        return t
-
-    return wrapper
-
 # temporary work-around, classifier should run on a separated server instead
 classifier = Classifier()
 
 
-@thread
 def analyze_cases(cases: List[CaseModel], force: bool=False):
     manager = CaseManager()
 
     tasks = []
     for case in cases:
         tasks += manager.get_with_task_set_by_case_id(case.case_id).task_set.all()
+    
+    if not tasks:
+        return
 
-    t = classify_tasks(tasks, force)
-    t.join()
+    classify_tasks(tasks, force)
 
     for case in cases:
         result = manager.get_majority_class_from_tasks(case.case_id)
@@ -40,7 +33,6 @@ def analyze_cases(cases: List[CaseModel], force: bool=False):
     manager.bulk_update(cases=cases, fields=["category", "report"])
 
 
-@thread
 def classify_tasks(tasks: List[TaskModel], force: bool=False):
     img_paths = [
         settings.MEDIA_ROOT / task.img.path for task in tasks
