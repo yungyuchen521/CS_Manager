@@ -22,11 +22,6 @@ construct the database
 Create folders for local storage
 > $ mkdir -p images/tasks
 
-Download **image folder** from [here](https://drive.google.com/drive/folders/1VhoRimk7qt2T0TL4GZZmkXF9SP9q6qQL?usp=share_link)
-
-Populate the database
-> $ python manage.py load_faked_tasks {path to the **image folder**}
-
 Load static files
 > $ python manage.py collectstatic
 
