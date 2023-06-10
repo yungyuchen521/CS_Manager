@@ -129,5 +129,5 @@ dmypy.json
 .pyre/
 
 # local storage
-images
+# images
 nn_model

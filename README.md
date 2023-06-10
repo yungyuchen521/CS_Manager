@@ -18,11 +18,7 @@ create database
 construct the database
 > $ python manage.py migrate
 
-### Populate the Database
-Create folders for local storage
-> $ mkdir -p images/tasks
-
-Load static files
+### Load static files
 > $ python manage.py collectstatic
 
 ### Model
