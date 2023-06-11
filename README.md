@@ -28,3 +28,6 @@ Download the model from [here](https://drive.google.com/file/d/10At8oja9Lga58Lyr
 > $ python manage.py runserver
 
 go to http://127.0.0.1:8000/upload
+
+### Sample Images
+Sample images can be downloaded [here](https://drive.google.com/drive/folders/1VhoRimk7qt2T0TL4GZZmkXF9SP9q6qQL?usp=share_link)
